@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  border: 2px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#calculator {
+  outline: 5px solid black;
+  padding: 1px;
+}
+
+#display {
+  outline: 2px solid red;
+  width: 512px;
+  height: 128px;
+}
+
+#buttons {
+  display: flex;
+  flex-wrap: wrap;
+  height: 640px;
+  width: 512px;
+}
+
+.btn {
+  outline: 1px solid black;
+  width: 128px;
+  height: 128px;
+  text-align: center;
+  line-height: 128px;
+  font-size: 36px;
+}
+
+.zero {
+  width: 256px;
+}
