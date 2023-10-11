@@ -21,8 +21,8 @@ let displayValue = "",
   operator = null;
 
 const operate = function (operator, a, b) {
-  let firstValue = parseInt(a);
-  let secondValue = parseInt(b);
+  let firstValue = parseFloat(a);
+  let secondValue = parseFloat(b);
   if (operator === "+") {
     return add(firstValue, secondValue);
   } else if (operator === "−") {
@@ -31,7 +31,7 @@ const operate = function (operator, a, b) {
     return multiply(firstValue, secondValue);
   } else if (operator === "÷") {
     if (secondValue === 0) {
-      return "Error";
+      return "Error! Can't divid by 0";
     }
     return divide(firstValue, secondValue);
   } else return "Error";
@@ -41,10 +41,6 @@ const display = document.getElementById("display");
 
 const updateDisplay = function () {
   display.textContent = displayValue;
-};
-
-const displayResult = function () {
-  display.textContent = result;
 };
 
 const numberBtnNodeList = document.querySelectorAll(".btn");
@@ -60,17 +56,52 @@ numberBtnArray.forEach((button) => {
       secondValue = null;
       operator = null;
       updateDisplay();
+      removeBackground();
     } else if (
       buttonValue === "+" ||
       buttonValue === "−" ||
       buttonValue === "×" ||
       buttonValue === "÷"
     ) {
-      updateDisplay();
+      if (firstValue === null) {
+        firstValue = displayValue;
+        displayValue = "";
+        console.log(firstValue + " |  " + secondValue);
+        updateDisplay();
+      }
+      operator = buttonValue;
     } else if (!isNaN(buttonValue) || buttonValue === ".") {
       displayValue += buttonValue;
       updateDisplay();
     } else if (buttonValue === "=") {
+      secondValue = displayValue;
+      displayValue = operate(operator, firstValue, secondValue);
+      firstValue = displayValue;
+      console.log(firstValue + "  |  " + secondValue);
+      updateDisplay();
+      displayValue = "";
+      secondValue = null;
     }
   });
 });
+
+const operation = document.querySelectorAll(".operation");
+const operationArray = Array.from(operation);
+
+operationArray.forEach((button) => {
+  button.addEventListener("click", () => {
+    operationArray.forEach((operator) => {
+      operator.classList.remove("selected");
+    });
+    button.classList.add("selected");
+  });
+});
+
+const removeBackground = function () {
+  const operation = document.querySelectorAll(".operation");
+  const operationArray = Array.from(operation);
+
+  operationArray.forEach((operator) => {
+    operator.classList.remove("selected");
+  });
+};

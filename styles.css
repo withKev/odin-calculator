@@ -2,9 +2,15 @@ body {
   margin: 0;
   padding: 0;
 }
+#display {
+  font-size: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
 
 #container {
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,7 +24,7 @@ body {
 }
 
 #display {
-  outline: 2px solid red;
+  /* outline: 2px solid red; */
   width: 512px;
   height: 128px;
 }
@@ -41,4 +47,8 @@ body {
 
 .zero {
   width: 256px;
+}
+
+.selected {
+  background-color: lightgrey;
 }
