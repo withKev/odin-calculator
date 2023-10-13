@@ -31,7 +31,7 @@ const operate = function (operator, a, b) {
     return multiply(firstValue, secondValue);
   } else if (operator === "÷") {
     if (secondValue === 0) {
-      return "Error! Can't divid by 0";
+      return "Error! Can't divide by 0";
     }
     return divide(firstValue, secondValue);
   } else return "Error";
@@ -65,22 +65,32 @@ numberBtnArray.forEach((button) => {
     ) {
       if (firstValue === null) {
         firstValue = displayValue;
-        displayValue = "";
         console.log(firstValue + " |  " + secondValue);
         updateDisplay();
+      } else if (
+        (!isNaN(firstValue) && secondValue === null) ||
+        !isNaN(secondValue)
+      ) {
+        secondValue = displayValue;
+        displayValue = operate(operator, firstValue, secondValue);
+        firstValue = displayValue;
       }
+      updateDisplay();
+      displayValue = "";
       operator = buttonValue;
     } else if (!isNaN(buttonValue) || buttonValue === ".") {
       displayValue += buttonValue;
       updateDisplay();
     } else if (buttonValue === "=") {
-      secondValue = displayValue;
-      displayValue = operate(operator, firstValue, secondValue);
-      firstValue = displayValue;
-      console.log(firstValue + "  |  " + secondValue);
-      updateDisplay();
-      displayValue = "";
-      secondValue = null;
+      if (firstValue !== null && operator && displayValue !== "") {
+        secondValue = displayValue;
+        displayValue = operate(operator, firstValue, secondValue);
+        firstValue = displayValue;
+        updateDisplay();
+        secondValue = null;
+        operator = null;
+        displayValue = "";
+      }
     }
   });
 });
@@ -105,3 +115,14 @@ const removeBackground = function () {
     operator.classList.remove("selected");
   });
 };
+
+const toggleNegative = () => {
+  if (displayValue === "" || displayValue === 0) {
+    return;
+  }
+  displayValue = displayValue * -1;
+  updateDisplay();
+};
+
+const toggleNegativeBtn = document.querySelector(".toggleNegative");
+toggleNegativeBtn.addEventListener("click", toggleNegative);
