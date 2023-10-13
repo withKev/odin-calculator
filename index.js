@@ -24,23 +24,28 @@ const operate = function (operator, a, b) {
   let firstValue = parseFloat(a);
   let secondValue = parseFloat(b);
   if (operator === "+") {
-    return add(firstValue, secondValue);
+    return add(firstValue, secondValue).toFixed(12);
   } else if (operator === "−") {
-    return subtract(firstValue, secondValue);
+    return subtract(firstValue, secondValue).toFixed(12);
   } else if (operator === "×") {
-    return multiply(firstValue, secondValue);
+    return multiply(firstValue, secondValue).toFixed(12);
   } else if (operator === "÷") {
     if (secondValue === 0) {
-      return "Error! Can't divide by 0";
+      return "wat?";
     }
-    return divide(firstValue, secondValue);
-  } else return "Error";
+    return divide(firstValue, secondValue).toFixed(12);
+  } else return "Huh?";
 };
 
 const display = document.getElementById("display");
 
 const updateDisplay = function () {
-  display.textContent = displayValue;
+  let formattedValue = displayValue.toString();
+  formattedValue = parseFloat(formattedValue).toFixed(12);
+  if (formattedValue.includes(".")) {
+    formattedValue = formattedValue.replace(/\.?0+$/, "");
+  }
+  display.textContent = formattedValue.slice(0, 14);
 };
 
 const numberBtnNodeList = document.querySelectorAll(".btn");
@@ -51,7 +56,7 @@ numberBtnArray.forEach((button) => {
     const buttonValue = button.textContent;
     console.log(buttonValue);
     if (buttonValue === "AC") {
-      displayValue = "";
+      displayValue = "0";
       firstValue = null;
       secondValue = null;
       operator = null;
@@ -78,7 +83,10 @@ numberBtnArray.forEach((button) => {
       updateDisplay();
       displayValue = "";
       operator = buttonValue;
-    } else if (!isNaN(buttonValue) || buttonValue === ".") {
+    } else if (!isNaN(buttonValue)) {
+      displayValue += buttonValue;
+      updateDisplay();
+    } else if (buttonValue === "." && !displayValue.includes(".")) {
       displayValue += buttonValue;
       updateDisplay();
     } else if (buttonValue === "=") {
